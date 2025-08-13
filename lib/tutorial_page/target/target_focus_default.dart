@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
-import 'package:tutorial_coach_mark/src/target/target_content.dart';
-import 'package:tutorial_coach_mark/src/target/target_position.dart';
-import 'package:tutorial_coach_mark/src/util.dart';
+import 'package:new_tutorial/tutorial_page/target/target_content_default.dart';
+import 'package:new_tutorial/tutorial_page/target/target_position_default.dart';
+import 'package:new_tutorial/tutorial_page/util.dart';
 
 class TargetFocusDefault {
   TargetFocusDefault({
@@ -24,9 +24,9 @@ class TargetFocusDefault {
 
   final dynamic identify;
   final GlobalKey? keyTarget;
-  final TargetPosition? targetPosition;
-  final List<TargetContent>? contents;
-  final ShapeLightFocus? shape;
+  final TargetPositionDefault? targetPosition;
+  final List<TargetContentDefault>? contents;
+  final ShapeLightFocusDefault? shape;
   final double? radius;
   final BorderSide? borderSide;
   final bool enableOverlayTab;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:new_tutorial/tutorial_page/target/target_content_default.dart';
+import 'package:new_tutorial/tutorial_page/target/target_focus_default.dart';
 import 'package:new_tutorial/tutorial_page/tutorial_coach_mark_default.dart';
-import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class TutorialMainState extends ChangeNotifier {
   TutorialMainState() {
@@ -54,16 +55,16 @@ class TutorialMainState extends ChangeNotifier {
     );
   }
 
-  List<TargetFocus> _createTargets() {
-    List<TargetFocus> targets = [];
+  List<TargetFocusDefault> _createTargets() {
+    List<TargetFocusDefault> targets = [];
     targets.add(
-      TargetFocus(
+      TargetFocusDefault(
         keyTarget: _redKey,
         alignSkip: Alignment.topRight,
         enableOverlayTab: true,
         contents: [
-          TargetContent(
-            align: ContentAlign.top,
+          TargetContentDefault(
+            align: ContentAlignDefault.top,
             builder: (context, controller) {
               return const Column(
                 mainAxisSize: MainAxisSize.min,

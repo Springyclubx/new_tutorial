@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:new_tutorial/provider/tutorial_main_state.dart';
 import 'package:provider/provider.dart';
-import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 void main() {
   runApp(const MyApp());

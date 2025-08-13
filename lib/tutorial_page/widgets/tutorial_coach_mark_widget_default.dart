@@ -2,12 +2,12 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:new_tutorial/tutorial_page/target_focus_default.dart';
-import 'package:tutorial_coach_mark/src/target/target_content.dart';
-import 'package:tutorial_coach_mark/src/target/target_focus.dart';
-import 'package:tutorial_coach_mark/src/target/target_position.dart';
-import 'package:tutorial_coach_mark/src/util.dart';
-import 'package:tutorial_coach_mark/src/widgets/animated_focus_light.dart';
+import 'package:new_tutorial/tutorial_page/target/target_focus_default.dart';
+import 'package:new_tutorial/tutorial_page/target/target_position_default.dart';
+import 'package:new_tutorial/tutorial_page/util.dart';
+import 'package:new_tutorial/tutorial_page/widgets/animated_focus_light_default.dart';
+
+import '../target/target_content_default.dart';
 
 class TutorialCoachMarkWidgetDefault extends StatefulWidget {
   const TutorialCoachMarkWidgetDefault({
@@ -43,7 +43,7 @@ class TutorialCoachMarkWidgetDefault extends StatefulWidget {
   final List<TargetFocusDefault> targets;
   final FutureOr Function(TargetFocusDefault)? clickTarget;
   final FutureOr Function(TargetFocusDefault, TapDownDetails)?
-  onClickTargetWithTapPosition;
+      onClickTargetWithTapPosition;
   final FutureOr Function(TargetFocusDefault)? clickOverlay;
   final void Function()? finish;
   final Color colorShadow;
@@ -72,8 +72,8 @@ class TutorialCoachMarkWidgetDefault extends StatefulWidget {
 }
 
 class TutorialCoachMarkWidgetDefaultState extends State<TutorialCoachMarkWidgetDefault>
-    implements TutorialCoachMarkController {
-  final GlobalKey<AnimatedFocusLightState> _focusLightKey = GlobalKey();
+    implements TutorialCoachMarkControllerDefault {
+  final GlobalKey<AnimatedFocusLightDefaultState> _focusLightKey = GlobalKey();
   bool showContent = false;
   TargetFocusDefault? currentTarget;
 
@@ -83,7 +83,7 @@ class TutorialCoachMarkWidgetDefaultState extends State<TutorialCoachMarkWidgetD
       type: MaterialType.transparency,
       child: Stack(
         children: <Widget>[
-          AnimatedFocusLight(
+          AnimatedFocusLightDefault(
             key: _focusLightKey,
             initialFocus: widget.initialFocus,
             targets: widget.targets,
@@ -139,7 +139,7 @@ class TutorialCoachMarkWidgetDefaultState extends State<TutorialCoachMarkWidgetD
 
     List<Widget> children = <Widget>[];
 
-    TargetPosition? target;
+    TargetPositionDefault? target;
     try {
       target = getTargetCurrent(
         currentTarget!,
@@ -169,7 +169,7 @@ class TutorialCoachMarkWidgetDefaultState extends State<TutorialCoachMarkWidgetD
     double haloWidth;
     double haloHeight;
 
-    if (currentTarget!.shape == ShapeLightFocus.Circle) {
+    if (currentTarget!.shape == ShapeLightFocusDefault.Circle) {
       haloWidth = target.size.width > target.size.height
           ? target.size.width
           : target.size.height;
@@ -192,7 +192,7 @@ class TutorialCoachMarkWidgetDefaultState extends State<TutorialCoachMarkWidgetD
 
     children = currentTarget!.contents!.map<Widget>((i) {
       switch (i.align) {
-        case ContentAlign.bottom:
+        case ContentAlignDefault.bottom:
           {
             width = ancestorBox.size.width;
             left = 0;
@@ -200,7 +200,7 @@ class TutorialCoachMarkWidgetDefaultState extends State<TutorialCoachMarkWidgetD
             bottom = null;
           }
           break;
-        case ContentAlign.top:
+        case ContentAlignDefault.top:
           {
             width = ancestorBox.size.width;
             left = 0;
@@ -208,7 +208,7 @@ class TutorialCoachMarkWidgetDefaultState extends State<TutorialCoachMarkWidgetD
             bottom = haloHeight + (ancestorBox.size.height - positioned.dy);
           }
           break;
-        case ContentAlign.left:
+        case ContentAlignDefault.left:
           {
             width = positioned.dx - haloWidth;
             left = 0;
@@ -216,7 +216,7 @@ class TutorialCoachMarkWidgetDefaultState extends State<TutorialCoachMarkWidgetD
             bottom = null;
           }
           break;
-        case ContentAlign.right:
+        case ContentAlignDefault.right:
           {
             left = positioned.dx + haloWidth;
             top = positioned.dy - target!.size.height / 2 - haloHeight;
@@ -224,7 +224,7 @@ class TutorialCoachMarkWidgetDefaultState extends State<TutorialCoachMarkWidgetD
             width = ancestorBox.size.width - left!;
           }
           break;
-        case ContentAlign.custom:
+        case ContentAlignDefault.custom:
           {
             left = i.customPosition!.left;
             right = i.customPosition!.right;

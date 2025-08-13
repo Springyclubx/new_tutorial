@@ -2,14 +2,14 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:new_tutorial/tutorial_page/target_focus_default.dart';
-import 'package:tutorial_coach_mark/src/clipper/circle_clipper.dart';
-import 'package:tutorial_coach_mark/src/clipper/rect_clipper.dart';
-import 'package:tutorial_coach_mark/src/paint/light_paint.dart';
-import 'package:tutorial_coach_mark/src/paint/light_paint_rect.dart';
-import 'package:tutorial_coach_mark/src/target/target_focus.dart';
-import 'package:tutorial_coach_mark/src/target/target_position.dart';
-import 'package:tutorial_coach_mark/src/util.dart';
+import 'package:new_tutorial/tutorial_page/clipper/circle_clipper_default.dart';
+import 'package:new_tutorial/tutorial_page/clipper/rect_clipper_default.dart';
+import 'package:new_tutorial/tutorial_page/paint/light_paint_default.dart';
+import 'package:new_tutorial/tutorial_page/paint/light_paint_rect_default.dart';
+
+import '../target/target_focus_default.dart';
+import '../target/target_position_default.dart';
+import '../util.dart';
 
 class AnimatedFocusLightDefault extends StatefulWidget {
   const AnimatedFocusLightDefault({
@@ -33,8 +33,8 @@ class AnimatedFocusLightDefault extends StatefulWidget {
     this.rootOverlay = false,
     this.initialFocus = 0,
     this.backgroundSemanticLabel,
-  })  : assert(targets.length > 0),
-        super(key: key);
+  }) : assert(targets.length > 0),
+       super(key: key);
 
   final List<TargetFocusDefault> targets;
   final Function(TargetFocusDefault)? focus;
@@ -64,7 +64,8 @@ class AnimatedFocusLightDefault extends StatefulWidget {
       : AnimatedStaticFocusLightState();
 }
 
-abstract class AnimatedFocusLightDefaultState extends State<AnimatedFocusLightDefault>
+abstract class AnimatedFocusLightDefaultState
+    extends State<AnimatedFocusLightDefault>
     with TickerProviderStateMixin {
   final borderRadiusDefault = 10.0;
   final defaultFocusAnimationDuration = Durations.long4;
@@ -73,7 +74,7 @@ abstract class AnimatedFocusLightDefaultState extends State<AnimatedFocusLightDe
 
   late TargetFocusDefault _targetFocus;
   Offset _positioned = Offset.zero;
-  TargetPosition? _targetPosition;
+  TargetPositionDefault? _targetPosition;
 
   double _sizeCircle = 100;
   int _currentFocus = 0;
@@ -90,15 +91,15 @@ abstract class AnimatedFocusLightDefaultState extends State<AnimatedFocusLightDe
 
   Duration get focusDuration =>
       _targetFocus.focusAnimationDuration ??
-          widget.focusAnimationDuration ??
-          defaultFocusAnimationDuration;
+      widget.focusAnimationDuration ??
+      defaultFocusAnimationDuration;
 
   Duration get unFocusDuration =>
       _targetFocus.unFocusAnimationDuration ??
-          widget.unFocusAnimationDuration ??
-          _targetFocus.focusAnimationDuration ??
-          widget.focusAnimationDuration ??
-          defaultFocusAnimationDuration;
+      widget.unFocusAnimationDuration ??
+      _targetFocus.focusAnimationDuration ??
+      widget.focusAnimationDuration ??
+      defaultFocusAnimationDuration;
 
   @override
   void initState() {
@@ -111,10 +112,7 @@ abstract class AnimatedFocusLightDefaultState extends State<AnimatedFocusLightDe
       animationBehavior: AnimationBehavior.preserve,
     )..addStatusListener(_listener);
 
-    _curvedAnimation = CurvedAnimation(
-      parent: _controller,
-      curve: Curves.ease,
-    );
+    _curvedAnimation = CurvedAnimation(parent: _controller, curve: Curves.ease);
 
     Future.delayed(Duration.zero, _runFocus);
   }
@@ -139,10 +137,7 @@ abstract class AnimatedFocusLightDefaultState extends State<AnimatedFocusLightDe
     _revertAnimation();
   }
 
-  Future _tapHandler({
-    bool targetTap = false,
-    bool overlayTap = false,
-  }) async {
+  Future _tapHandler({bool targetTap = false, bool overlayTap = false}) async {
     if (_isAnimating) return;
     nextIndex++;
     if (targetTap) {
@@ -165,7 +160,7 @@ abstract class AnimatedFocusLightDefaultState extends State<AnimatedFocusLightDe
 
     _controller.duration = focusDuration;
 
-    TargetPosition? targetPosition;
+    TargetPositionDefault? targetPosition;
     try {
       targetPosition = getTargetCurrent(
         _targetFocus,
@@ -232,42 +227,43 @@ abstract class AnimatedFocusLightDefaultState extends State<AnimatedFocusLightDe
     return SizedBox(
       width: double.maxFinite,
       height: double.maxFinite,
-      child: CustomPaint(
-        painter: _getPainter(targetFocus),
-      ),
+      child: CustomPaint(painter: _getPainter(targetFocus)),
     );
   }
 
-  CustomClipper<Path> _getClipper(ShapeLightFocus? shape) {
-    return shape == ShapeLightFocus.RRect
-        ? RectClipper(
-      progress: _progressAnimated,
-      offset: _getPaddingFocus(),
-      target: _targetPosition ?? TargetPosition(Size.zero, Offset.zero),
-      radius: _targetFocus.radius ?? 0,
-      borderSide: _targetFocus.borderSide,
-    )
-        : CircleClipper(
-      _progressAnimated,
-      _positioned,
-      _sizeCircle,
-      _targetFocus.borderSide,
-    );
+  CustomClipper<Path> _getClipper(ShapeLightFocusDefault? shape) {
+    return shape == ShapeLightFocusDefault.RRect
+        ? RectClipperDefault(
+            progress: _progressAnimated,
+            offset: _getPaddingFocus(),
+            target:
+                _targetPosition ??
+                TargetPositionDefault(Size.zero, Offset.zero),
+            radius: _targetFocus.radius ?? 0,
+            borderSide: _targetFocus.borderSide,
+          )
+        : CircleClipperDefault(
+            _progressAnimated,
+            _positioned,
+            _sizeCircle,
+            _targetFocus.borderSide,
+          );
   }
 
   CustomPainter _getPainter(TargetFocusDefault target) {
-    if (target.shape == ShapeLightFocus.RRect) {
-      return LightPaintRect(
+    if (target.shape == ShapeLightFocusDefault.RRect) {
+      return LightPaintRectDefault(
         colorShadow: target.color ?? widget.colorShadow,
         progress: _progressAnimated,
         offset: _getPaddingFocus(),
-        target: _targetPosition ?? TargetPosition(Size.zero, Offset.zero),
+        target:
+            _targetPosition ?? TargetPositionDefault(Size.zero, Offset.zero),
         radius: target.radius ?? 0,
         borderSide: target.borderSide,
         opacityShadow: widget.opacityShadow,
       );
     } else {
-      return LightPaint(
+      return LightPaintDefault(
         _progressAnimated,
         _positioned,
         _sizeCircle,
@@ -283,7 +279,7 @@ abstract class AnimatedFocusLightDefaultState extends State<AnimatedFocusLightDe
   }
 
   BorderRadius _betBorderRadiusTarget() {
-    double radius = _targetFocus.shape == ShapeLightFocus.Circle
+    double radius = _targetFocus.shape == ShapeLightFocusDefault.Circle
         ? _targetPosition?.size.width ?? borderRadiusDefault
         : _targetFocus.radius ?? borderRadiusDefault;
     return BorderRadius.circular(radius);
@@ -338,7 +334,7 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightDefaultState {
                       height: height,
                     ),
                   ),
-                )
+                ),
               ],
             );
           },
@@ -438,7 +434,7 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightDefaultState {
                           height: height,
                         ),
                       ),
-                    )
+                    ),
                   ],
                 );
               },

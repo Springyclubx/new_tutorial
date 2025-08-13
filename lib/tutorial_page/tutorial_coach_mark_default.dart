@@ -1,16 +1,13 @@
+
+
 import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:new_tutorial/tutorial_page/tutorial_coach_mark_widget_default.dart';
-import 'package:tutorial_coach_mark/src/target/target_focus.dart';
-import 'package:tutorial_coach_mark/src/util.dart';
-import 'package:tutorial_coach_mark/src/widgets/tutorial_coach_mark_widget.dart';
+import 'package:new_tutorial/tutorial_page/target/target_focus_default.dart';
+import 'package:new_tutorial/tutorial_page/util.dart';
+import 'package:new_tutorial/tutorial_page/widgets/tutorial_coach_mark_widget_default.dart';
 
-export 'package:tutorial_coach_mark/src/target/target_content.dart';
-export 'package:tutorial_coach_mark/src/target/target_focus.dart';
-export 'package:tutorial_coach_mark/src/target/target_position.dart';
-export 'package:tutorial_coach_mark/src/util.dart';
 
 /// A controller class that manages tutorial coach marks in your Flutter application.
 ///
@@ -21,7 +18,7 @@ export 'package:tutorial_coach_mark/src/util.dart';
 /// Example usage:
 /// ```dart
 /// TutorialCoachMark(
-///   targets: targets, // List<TargetFocus>
+///   targets: targets, // List<TargetFocusDefault>
 ///   colorShadow: Colors.red,
 ///   onSkip: () {
 ///     return true; // returning true closes the tutorial
@@ -45,11 +42,11 @@ export 'package:tutorial_coach_mark/src/util.dart';
 /// - [finish] - Ends the tutorial
 
 class TutorialCoachMarkDefault {
-  final List<TargetFocus> targets;
-  final FutureOr<void> Function(TargetFocus)? onClickTarget;
-  final FutureOr<void> Function(TargetFocus, TapDownDetails)?
-  onClickTargetWithTapPosition;
-  final FutureOr<void> Function(TargetFocus)? onClickOverlay;
+  final List<TargetFocusDefault> targets;
+  final FutureOr<void> Function(TargetFocusDefault)? onClickTarget;
+  final FutureOr<void> Function(TargetFocusDefault, TapDownDetails)?
+      onClickTargetWithTapPosition;
+  final FutureOr<void> Function(TargetFocusDefault)? onClickOverlay;
   final Function()? onFinish;
   final double paddingFocus;
 
@@ -71,12 +68,12 @@ class TutorialCoachMarkDefault {
   final ImageFilter? imageFilter;
   final String? backgroundSemanticLabel;
   final int initialFocus;
-  final GlobalKey<TutorialCoachMarkWidgetState> _widgetKey = GlobalKey();
+  final GlobalKey<TutorialCoachMarkWidgetDefaultState> _widgetKey = GlobalKey();
   final bool disableBackButton;
 
   OverlayEntry? _overlayEntry;
   ModalRoute?
-  _blockBackRoute; // Referencia a la ruta que bloquea el botón "Atrás"
+      _blockBackRoute; // Referencia a la ruta que bloquea el botón "Atrás"
   BuildContext? _contextTutorial; // Almacena el contexto para usarlo después
 
   TutorialCoachMarkDefault({
@@ -175,7 +172,7 @@ class TutorialCoachMarkDefault {
             return PopScope(
               canPop: false,
               onPopInvokedWithResult: (value, result) async =>
-              false, // Bloquea el retroceso
+                  false, // Bloquea el retroceso
               child: const SizedBox(), // No muestra nada
             );
           },
@@ -186,9 +183,9 @@ class TutorialCoachMarkDefault {
   }
 
   void _createAndShow(
-      OverlayState overlay, {
-        bool rootOverlay = false,
-      }) {
+    OverlayState overlay, {
+    bool rootOverlay = false,
+  }) {
     if (_overlayEntry == null) {
       _overlayEntry = _buildOverlay(rootOverlay: rootOverlay);
       overlay.insert(_overlayEntry!);
@@ -211,7 +208,7 @@ class TutorialCoachMarkDefault {
 
   bool get isShowing => _overlayEntry != null;
 
-  GlobalKey<TutorialCoachMarkWidgetState> get widgetKey => _widgetKey;
+  GlobalKey<TutorialCoachMarkWidgetDefaultState> get widgetKey => _widgetKey;
 
   void next() => _widgetKey.currentState?.next();
 

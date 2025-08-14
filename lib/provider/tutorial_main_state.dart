@@ -33,6 +33,7 @@ class TutorialMainState extends ChangeNotifier {
       textSkip: "SKIP",
       paddingFocus: 10,
       opacityShadow: 0.5,
+      pulseEnable: false,
       onFinish: () {
         print("finish");
       },
@@ -64,17 +65,27 @@ class TutorialMainState extends ChangeNotifier {
         enableOverlayTab: true,
         contents: [
           TargetContentDefault(
-            align: ContentAlignDefault.top,
+            align: ContentAlignDefault.bottom,
+            padding: EdgeInsets.zero,
             builder: (context, controller) {
-              return const Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Titulo lorem ipsum",
-                    style: TextStyle(color: Colors.white),
+              final mediaQuery = MediaQuery.sizeOf(context);
+              return ClipPath(
+                clipper: _CurvaClipper(),
+                child: Container(
+                  width: mediaQuery.width,
+                  color: Colors.red,
+                  height: mediaQuery.height,
+                  child: const Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        "Titulo lorem ipsum",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               );
             },
           ),
@@ -84,4 +95,24 @@ class TutorialMainState extends ChangeNotifier {
 
     return targets;
   }
+}
+
+class _CurvaClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+    path.lineTo(0, size.height - 50);
+    path.quadraticBezierTo(
+      size.width / 2,
+      size.height,
+      size.width,
+      size.height - 50,
+    );
+    path.lineTo(size.width, 0);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }

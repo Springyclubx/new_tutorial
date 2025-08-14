@@ -309,36 +309,29 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightDefaultState {
     return Semantics(
       label: widget.backgroundSemanticLabel,
       button: true,
-      child: InkWell(
-        excludeFromSemantics: true,
-        onTap: _targetFocus.enableOverlayTab
-            ? () => _tapHandler(overlayTap: true)
-            : null,
-        child: AnimatedBuilder(
-          animation: _controller,
-          builder: (_, child) {
-            _progressAnimated = _curvedAnimation.value;
-            return Stack(
-              children: <Widget>[
-                _getLightPaint(_targetFocus),
-                Positioned(
-                  left: left,
-                  top: top,
-                  child: InkWell(
-                    borderRadius: _betBorderRadiusTarget(),
-                    onTapDown: _tapHandlerForPosition,
-                    onTap: _onTargetTap,
-                    child: Container(
-                      color: Colors.transparent,
-                      width: width,
-                      height: height,
-                    ),
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (_, child) {
+          _progressAnimated = _curvedAnimation.value;
+          return Stack(
+            children: <Widget>[
+              _getLightPaint(_targetFocus),
+              Positioned(
+                left: left,
+                top: top,
+                child: GestureDetector(
+                  onTapDown: _tapHandlerForPosition,
+                  onTap: _onTargetTap,
+                  child: Container(
+                    color: Colors.transparent,
+                    width: width,
+                    height: height,
                   ),
                 ),
-              ],
-            );
-          },
-        ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -424,15 +417,10 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightDefaultState {
                     Positioned(
                       left: left,
                       top: top,
-                      child: InkWell(
-                        borderRadius: _betBorderRadiusTarget(),
-                        onTap: _onTargetTap,
-                        onTapDown: _tapHandlerForPosition,
-                        child: Container(
-                          color: Colors.transparent,
-                          width: width,
-                          height: height,
-                        ),
+                      child: Container(
+                        color: Colors.transparent,
+                        width: width,
+                        height: height,
                       ),
                     ),
                   ],

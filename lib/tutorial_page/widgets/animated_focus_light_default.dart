@@ -13,7 +13,7 @@ import '../util.dart';
 
 class AnimatedFocusLightDefault extends StatefulWidget {
   const AnimatedFocusLightDefault({
-    Key? key,
+    super.key,
     required this.targets,
     this.focus,
     this.finish,
@@ -33,8 +33,7 @@ class AnimatedFocusLightDefault extends StatefulWidget {
     this.rootOverlay = false,
     this.initialFocus = 0,
     this.backgroundSemanticLabel,
-  }) : assert(targets.length > 0),
-       super(key: key);
+  }) : assert(targets.length > 0);
 
   final List<TargetFocusDefault> targets;
   final Function(TargetFocusDefault)? focus;
@@ -276,13 +275,6 @@ abstract class AnimatedFocusLightDefaultState
 
   double _getPaddingFocus() {
     return _targetFocus.paddingFocus ?? (widget.paddingFocus);
-  }
-
-  BorderRadius _betBorderRadiusTarget() {
-    double radius = _targetFocus.shape == ShapeLightFocusDefault.Circle
-        ? _targetPosition?.size.width ?? borderRadiusDefault
-        : _targetFocus.radius ?? borderRadiusDefault;
-    return BorderRadius.circular(radius);
   }
 
   void _onTargetTap() {

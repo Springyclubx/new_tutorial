@@ -75,15 +75,15 @@ class TutorialMainState extends ChangeNotifier {
                   width: mediaQuery.width,
                   color: Colors.red,
                   height: mediaQuery.height,
-                  child: const Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "Titulo lorem ipsum",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
+                  alignment: Alignment.topLeft,
+                  child: const Text(
+                    "Topo com duas curvas",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
                 ),
               );
@@ -101,15 +101,27 @@ class _CurvaClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     Path path = Path();
-    path.lineTo(0, size.height - 50);
+
+    // começa um pouco abaixo do topo à esquerda
+    path.moveTo(0, 50);
+
+    // primeira curva
     path.quadraticBezierTo(
-      size.width / 2,
-      size.height,
-      size.width,
-      size.height - 50,
+      size.width / 4, 0,        // ponto de controle
+      size.width / 2, 50,       // fim da curva
     );
-    path.lineTo(size.width, 0);
+
+    // segunda curva
+    path.quadraticBezierTo(
+      3 * size.width / 4, 100,  // ponto de controle
+      size.width, 50,           // fim da curva
+    );
+
+    // desce pelas laterais e fecha embaixo
+    path.lineTo(size.width, size.height);
+    path.lineTo(0, size.height);
     path.close();
+
     return path;
   }
 

@@ -69,14 +69,20 @@ class TutorialMainState extends ChangeNotifier {
             padding: EdgeInsets.zero,
             builder: (context, controller) {
               final mediaQuery = MediaQuery.sizeOf(context);
-              return ClipPath(
-                clipper: _CurvaClipper(),
-                child: Container(
-                  width: mediaQuery.width,
-                  color: Colors.red,
-                  height: mediaQuery.height,
-                  alignment: Alignment.topLeft,
-                  child: const Text(
+              return Column(
+                children: [
+
+                  ClipPath(
+                    clipper: _CurvaClipper(),
+                    child: Container(
+                      width: mediaQuery.width,
+                      color: Colors.red,
+                      height: mediaQuery.height/2,
+                      alignment: Alignment.topLeft,
+                    ),
+                  ),
+
+                  const Text(
                     "Topo com duas curvas",
                     style: TextStyle(
                       fontSize: 18,
@@ -85,7 +91,8 @@ class TutorialMainState extends ChangeNotifier {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                ),
+
+                ],
               );
             },
           ),

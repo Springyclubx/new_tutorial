@@ -113,16 +113,16 @@ class _CurvaClipper extends CustomClipper<Path> {
     // começa no canto superior esquerdo
     path.moveTo(0, 0);
 
-    // curva aguda no topo (logo no começo)
+    // curva aguda no topo (logo no começo) - MAIS ACENTUADA
     path.quadraticBezierTo(
-      size.width * 0.25, 100, // ponto de controle (bem abaixo)
-      size.width * 0.5, 40,   // ponto final (volta um pouco pra cima)
+      size.width * 0.25, 180, // Ponto de controle Y aumentado (mais para baixo)
+      size.width * 0.5, 60,   // Ponto final Y ajustado
     );
 
-    // curva suave até o canto direito
+    // curva suave até o canto direito - MAIS ACENTUADA
     path.quadraticBezierTo(
-      size.width * 0.75, 0,   // ponto de controle (topo)
-      size.width, 80,         // ponto final (desce suave)
+      size.width * 0.75, -60,  // Ponto de controle Y diminuído (mais para cima)
+      size.width, 100,         // Ponto final Y aumentado (desce mais)
     );
 
     // fecha o restante até embaixo

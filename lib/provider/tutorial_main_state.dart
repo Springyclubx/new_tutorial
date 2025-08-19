@@ -72,14 +72,9 @@ class TutorialMainState extends ChangeNotifier {
               final mediaQuery = MediaQuery.sizeOf(context);
               return Stack(
                 children: [
-                  ClipPath(
-                    clipper: _CurvaClipper(),
-                    child: Container(
-                      width: mediaQuery.width,
-                      color: Colors.white54,
-                      height: mediaQuery.height,
-                      alignment: Alignment.topLeft,
-                    ),
+                  CustomPaint(
+                    foregroundPainter: _CurvaClipper(),
+                    size: Size(mediaQuery.width, mediaQuery.height),
                   ),
 
                   Center(
@@ -105,34 +100,40 @@ class TutorialMainState extends ChangeNotifier {
   }
 }
 
-class _CurvaClipper extends CustomClipper<Path> {
+//Copy this CustomPainter code to the Bottom of the File
+class _CurvaClipper extends CustomPainter {
   @override
-  Path getClip(Size size) {
-    Path path = Path();
-
-    // começa no canto superior esquerdo
-    path.moveTo(0, 0);
-
-    // curva aguda no topo (logo no começo) - MAIS ACENTUADA
-    path.quadraticBezierTo(
-      size.width * 0.25, 180, // Ponto de controle Y aumentado (mais para baixo)
-      size.width * 0.5, 60,   // Ponto final Y ajustado
+  void paint(Canvas canvas, Size size) {
+    Path path_0 = Path();
+    path_0.moveTo(size.width * -0.0005002383, 0);
+    path_0.cubicTo(
+      size.width * -0.0005002383,
+      0,
+      size.width * -0.06007850,
+      size.height * 0.1131537,
+      size.width * 0.4995000,
+      size.height * 0.05064647,
     );
-
-    // curva suave até o canto direito - MAIS ACENTUADA
-    path.quadraticBezierTo(
-      size.width * 0.75, -60,  // Ponto de controle Y diminuído (mais para cima)
-      size.width, 100,         // Ponto final Y aumentado (desce mais)
+    path_0.cubicTo(
+      size.width * 1.059077,
+      size.height * -0.01186064,
+      size.width * 0.9995000,
+      size.height * 0.2586138,
+      size.width * 0.9995000,
+      size.height * 0.2586138,
     );
+    path_0.lineTo(size.width * 0.9995000, size.height);
+    path_0.lineTo(size.width * -0.0005002383, size.height);
+    path_0.lineTo(size.width * -0.0005002383, 0);
+    path_0.close();
 
-    // fecha o restante até embaixo
-    path.lineTo(size.width, size.height);
-    path.lineTo(0, size.height);
-    path.close();
-
-    return path;
+    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
+    paint_0_fill.color = Colors.white.withOpacity(1.0);
+    canvas.drawPath(path_0, paint_0_fill);
   }
 
   @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
+  }
 }

@@ -29,7 +29,7 @@ class TutorialMainState extends ChangeNotifier {
   void createTutorial() {
     _tutorialCoachMark = TutorialCoachMarkDefault(
       targets: _createTargets(),
-      colorShadow: Colors.red,
+      colorShadow: Colors.black,
       textSkip: "SKIP",
       paddingFocus: 10,
       opacityShadow: 0.5,
@@ -66,32 +66,33 @@ class TutorialMainState extends ChangeNotifier {
         contents: [
           TargetContentDefault(
             align: ContentAlignDefault.bottom,
+            topDistance: 100,
             padding: EdgeInsets.zero,
             builder: (context, controller) {
               final mediaQuery = MediaQuery.sizeOf(context);
-              return Column(
+              return Stack(
                 children: [
-
                   ClipPath(
                     clipper: _CurvaClipper(),
                     child: Container(
                       width: mediaQuery.width,
-                      color: Colors.red,
-                      height: mediaQuery.height/2,
+                      color: Colors.white54,
+                      height: mediaQuery.height,
                       alignment: Alignment.topLeft,
                     ),
                   ),
 
-                  const Text(
-                    "Topo com duas curvas",
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
+                  Center(
+                    child: const Text(
+                      "Topo com duas curvas",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
                   ),
-
                 ],
               );
             },
@@ -109,22 +110,22 @@ class _CurvaClipper extends CustomClipper<Path> {
   Path getClip(Size size) {
     Path path = Path();
 
-    // começa um pouco abaixo do topo à esquerda
-    path.moveTo(0, 50);
+    // começa no canto superior esquerdo
+    path.moveTo(0, 0);
 
-    // primeira curva
+    // curva aguda no topo (logo no começo)
     path.quadraticBezierTo(
-      size.width / 4, 0,        // ponto de controle
-      size.width / 2, 50,       // fim da curva
+      size.width * 0.25, 100, // ponto de controle (bem abaixo)
+      size.width * 0.5, 40,   // ponto final (volta um pouco pra cima)
     );
 
-    // segunda curva
+    // curva suave até o canto direito
     path.quadraticBezierTo(
-      3 * size.width / 4, 100,  // ponto de controle
-      size.width, 50,           // fim da curva
+      size.width * 0.75, 0,   // ponto de controle (topo)
+      size.width, 80,         // ponto final (desce suave)
     );
 
-    // desce pelas laterais e fecha embaixo
+    // fecha o restante até embaixo
     path.lineTo(size.width, size.height);
     path.lineTo(0, size.height);
     path.close();

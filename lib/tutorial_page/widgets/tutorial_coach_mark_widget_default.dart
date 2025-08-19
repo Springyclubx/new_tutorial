@@ -37,13 +37,13 @@ class TutorialCoachMarkWidgetDefault extends StatefulWidget {
     this.imageFilter,
     this.backgroundSemanticLabel,
     this.initialFocus = 0,
-  })  : assert(targets.length > 0),
-        super(key: key);
+  }) : assert(targets.length > 0),
+       super(key: key);
 
   final List<TargetFocusDefault> targets;
   final FutureOr Function(TargetFocusDefault)? clickTarget;
   final FutureOr Function(TargetFocusDefault, TapDownDetails)?
-      onClickTargetWithTapPosition;
+  onClickTargetWithTapPosition;
   final FutureOr Function(TargetFocusDefault)? clickOverlay;
   final void Function()? finish;
   final Color colorShadow;
@@ -68,10 +68,12 @@ class TutorialCoachMarkWidgetDefault extends StatefulWidget {
   final String? backgroundSemanticLabel;
 
   @override
-  TutorialCoachMarkWidgetDefaultState createState() => TutorialCoachMarkWidgetDefaultState();
+  TutorialCoachMarkWidgetDefaultState createState() =>
+      TutorialCoachMarkWidgetDefaultState();
 }
 
-class TutorialCoachMarkWidgetDefaultState extends State<TutorialCoachMarkWidgetDefault>
+class TutorialCoachMarkWidgetDefaultState
+    extends State<TutorialCoachMarkWidgetDefault>
     implements TutorialCoachMarkControllerDefault {
   final GlobalKey<AnimatedFocusLightDefaultState> _focusLightKey = GlobalKey();
   bool showContent = false;
@@ -103,8 +105,10 @@ class TutorialCoachMarkWidgetDefaultState extends State<TutorialCoachMarkWidgetD
               return widget.clickTarget?.call(target);
             },
             clickTargetWithTapPosition: (target, tapDetails) {
-              return widget.onClickTargetWithTapPosition
-                  ?.call(target, tapDetails);
+              return widget.onClickTargetWithTapPosition?.call(
+                target,
+                tapDetails,
+              );
             },
             clickOverlay: (target) {
               return widget.clickOverlay?.call(target);
@@ -126,7 +130,7 @@ class TutorialCoachMarkWidgetDefaultState extends State<TutorialCoachMarkWidgetD
             duration: const Duration(milliseconds: 300),
             child: _buildContents(),
           ),
-          _buildSkip()
+          _buildSkip(),
         ],
       ),
     );
@@ -196,7 +200,7 @@ class TutorialCoachMarkWidgetDefaultState extends State<TutorialCoachMarkWidgetD
           {
             width = ancestorBox.size.width;
             left = 0;
-            top = positioned.dy + haloHeight;
+            top =  (i.topDistance ?? 0);
             bottom = null;
           }
           break;
@@ -244,16 +248,15 @@ class TutorialCoachMarkWidgetDefaultState extends State<TutorialCoachMarkWidgetD
           width: width,
           child: Padding(
             padding: i.padding,
-            child: i.builder?.call(context, this) ??
+            child:
+                i.builder?.call(context, this) ??
                 (i.child ?? const SizedBox.shrink()),
           ),
         ),
       );
     }).toList();
 
-    return Stack(
-      children: children,
-    );
+    return Stack(children: children);
   }
 
   Widget _buildSkip() {
@@ -282,11 +285,13 @@ class TutorialCoachMarkWidgetDefaultState extends State<TutorialCoachMarkWidgetD
         child: AnimatedOpacity(
           opacity: showContent ? 1 : 0,
           duration: Durations.medium2,
-          child: widget.skipWidget ??
+          child:
+              widget.skipWidget ??
               InkWell(
                 onTap: skip,
                 child: IgnorePointer(
-                  child: widget.skipWidget ??
+                  child:
+                      widget.skipWidget ??
                       Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: Text(

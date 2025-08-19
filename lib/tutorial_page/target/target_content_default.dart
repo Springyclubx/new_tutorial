@@ -33,6 +33,7 @@ class TargetContentDefault {
     this.child,
     this.customPosition,
     this.builder,
+    this.topDistance,
   }) : assert(!(align == ContentAlignDefault.custom && customPosition == null));
 
   final ContentAlignDefault align;
@@ -40,6 +41,7 @@ class TargetContentDefault {
   final CustomTargetContentPosition? customPosition;
   final Widget? child;
   final TargetContentBuilder? builder;
+  final double? topDistance;
 
   @override
   String toString() {

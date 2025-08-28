@@ -72,10 +72,7 @@ class TutorialMainState extends ChangeNotifier {
               final mediaQuery = MediaQuery.sizeOf(context);
               return Stack(
                 children: [
-                  CustomPaint(
-                    foregroundPainter: _CurvaClipper(),
-                    size: Size(mediaQuery.width, mediaQuery.height),
-                  ),
+
 
                   Center(
                     child: const Text(
@@ -100,40 +97,3 @@ class TutorialMainState extends ChangeNotifier {
   }
 }
 
-//Copy this CustomPainter code to the Bottom of the File
-class _CurvaClipper extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    Path path_0 = Path();
-    path_0.moveTo(size.width * -0.0005002383, 0);
-    path_0.cubicTo(
-      size.width * -0.0005002383,
-      0,
-      size.width * -0.06007850,
-      size.height * 0.1131537,
-      size.width * 0.4995000,
-      size.height * 0.05064647,
-    );
-    path_0.cubicTo(
-      size.width * 1.059077,
-      size.height * -0.01186064,
-      size.width * 0.9995000,
-      size.height * 0.2586138,
-      size.width * 0.9995000,
-      size.height * 0.2586138,
-    );
-    path_0.lineTo(size.width * 0.9995000, size.height);
-    path_0.lineTo(size.width * -0.0005002383, size.height);
-    path_0.lineTo(size.width * -0.0005002383, 0);
-    path_0.close();
-
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.color = Colors.white.withOpacity(1.0);
-    canvas.drawPath(path_0, paint_0_fill);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
-  }
-}

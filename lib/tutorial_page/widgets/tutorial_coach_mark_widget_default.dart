@@ -200,7 +200,7 @@ class TutorialCoachMarkWidgetDefaultState
           {
             width = ancestorBox.size.width;
             left = 0;
-            top =  (i.topDistance ?? 0);
+            top = positioned.dy + haloHeight;
             bottom = null;
           }
           break;
@@ -239,19 +239,13 @@ class TutorialCoachMarkWidgetDefaultState
           break;
       }
 
-      return Positioned(
-        top: top,
-        bottom: bottom,
-        left: left,
-        right: right,
-        child: SizedBox(
-          width: width,
-          child: Padding(
-            padding: i.padding,
-            child:
-                i.builder?.call(context, this) ??
-                (i.child ?? const SizedBox.shrink()),
-          ),
+      return SizedBox(
+        width: width,
+        child: Padding(
+          padding: i.padding,
+          child:
+              i.builder?.call(context, this) ??
+              (i.child ?? const SizedBox.shrink()),
         ),
       );
     }).toList();

@@ -20,7 +20,7 @@ class TargetFocusDefault {
     this.focusAnimationDuration,
     this.unFocusAnimationDuration,
     this.pulseVariation,
-  }) : assert(keyTarget != null || targetPosition != null);
+  });
 
   final dynamic identify;
   final GlobalKey? keyTarget;

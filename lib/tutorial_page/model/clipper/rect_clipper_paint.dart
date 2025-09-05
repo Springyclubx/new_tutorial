@@ -1,16 +1,17 @@
 import 'dart:math';
 
 import 'package:flutter/rendering.dart';
-import 'package:new_tutorial/tutorial_page/target/target_position_default.dart';
 
-class RectClipperDefault extends CustomClipper<Path> {
+import '../target_position.dart';
+
+class RectClipperPaint extends CustomClipper<Path> {
   final double progress;
   final TargetPositionDefault target;
   final double offset;
   final double radius;
   final BorderSide? borderSide;
 
-  RectClipperDefault({
+  RectClipperPaint({
     required this.progress,
     required this.target,
     required this.offset,
@@ -26,7 +27,8 @@ class RectClipperDefault extends CustomClipper<Path> {
       return Path();
     }
 
-    var maxSize = max(size.width, size.height) +
+    var maxSize =
+        max(size.width, size.height) +
         max(target.size.width, target.size.height) +
         target.getBiggerSpaceBorder(size);
 
@@ -41,7 +43,7 @@ class RectClipperDefault extends CustomClipper<Path> {
   }
 
   @override
-  bool shouldReclip(covariant RectClipperDefault oldClipper) {
+  bool shouldReclip(covariant RectClipperPaint oldClipper) {
     return progress != oldClipper.progress;
   }
 
@@ -79,12 +81,7 @@ class RectClipperDefault extends CustomClipper<Path> {
     return Path()
       ..moveTo(0, 0)
       ..lineTo(0, y + radius)
-      ..arcTo(
-        Rect.fromLTWH(x, y, diameter, diameter),
-        pi,
-        pi / 2,
-        false,
-      )
+      ..arcTo(Rect.fromLTWH(x, y, diameter, diameter), pi, pi / 2, false)
       ..arcTo(
         Rect.fromLTWH(x + w - diameter, y, diameter, diameter),
         3 * pi / 2,

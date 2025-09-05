@@ -3,8 +3,10 @@ import 'package:flutter/widgets.dart';
 
 import '../util.dart';
 
-class CustomTargetContentPosition {
-  CustomTargetContentPosition({
+enum ContentAlignType { top, bottom, left, right, custom }
+
+class CustomTargetContentPositionModel {
+  CustomTargetContentPositionModel({
     this.top,
     this.left,
     this.right,
@@ -19,26 +21,25 @@ class CustomTargetContentPosition {
   }
 }
 
-enum ContentAlignDefault { top, bottom, left, right, custom }
+typedef TargetContentBuilder =
+    Widget Function(
+      BuildContext context,
+      TutorialCoachMarkControllerDefault controller,
+    );
 
-typedef TargetContentBuilder = Widget Function(
-  BuildContext context,
-  TutorialCoachMarkControllerDefault controller,
-);
-
-class TargetContentDefault {
-  TargetContentDefault({
-    this.align = ContentAlignDefault.bottom,
+class TargetContentDefaultModel {
+  TargetContentDefaultModel({
+    this.align = ContentAlignType.bottom,
     this.padding = const EdgeInsets.all(20.0),
     this.child,
     this.customPosition,
     this.builder,
     this.topDistance,
-  }) : assert(!(align == ContentAlignDefault.custom && customPosition == null));
+  }) : assert(!(align == ContentAlignType.custom && customPosition == null));
 
-  final ContentAlignDefault align;
+  final ContentAlignType align;
   final EdgeInsets padding;
-  final CustomTargetContentPosition? customPosition;
+  final CustomTargetContentPositionModel? customPosition;
   final Widget? child;
   final TargetContentBuilder? builder;
   final double? topDistance;

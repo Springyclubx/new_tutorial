@@ -1,8 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:new_tutorial/tutorial_page/clipper/rect_clipper_default.dart';
-import 'package:new_tutorial/tutorial_page/target/target_position_default.dart';
+
+import '../model/clipper/rect_clipper_paint.dart';
+import '../model/target_position.dart';
 
 class LightPaintRectDefault extends CustomPainter {
   final double progress;
@@ -50,12 +51,7 @@ class LightPaintRectDefault extends CustomPainter {
 
     return Path()
       ..moveTo(x, y + radius)
-      ..arcTo(
-        Rect.fromLTWH(x, y, diameter, diameter),
-        pi,
-        pi / 2,
-        false,
-      )
+      ..arcTo(Rect.fromLTWH(x, y, diameter, diameter), pi, pi / 2, false)
       ..arcTo(
         Rect.fromLTWH(x + w - diameter, y, diameter, diameter),
         3 * pi / 2,
@@ -86,7 +82,8 @@ class LightPaintRectDefault extends CustomPainter {
       return;
     }
 
-    var maxSize = max(size.width, size.height) +
+    var maxSize =
+        max(size.width, size.height) +
         max(target.size.width, target.size.height) +
         target.getBiggerSpaceBorder(size);
 
@@ -100,11 +97,11 @@ class LightPaintRectDefault extends CustomPainter {
 
     canvas.drawPath(
       radius > 0
-          ? RectClipperDefault.rRectHolePath(size, x, y, w, h, radius)
-          : RectClipperDefault.rectHolePath(size, x, y, w, h),
+          ? RectClipperPaint.rRectHolePath(size, x, y, w, h, radius)
+          : RectClipperPaint.rectHolePath(size, x, y, w, h),
       Paint()
         ..style = PaintingStyle.fill
-        ..color = colorShadow.withOpacity(opacityShadow)
+        ..color = colorShadow.withValues(alpha: opacityShadow)
         ..strokeWidth = 4,
     );
     if (borderSide != null && borderSide?.style != BorderStyle.none) {

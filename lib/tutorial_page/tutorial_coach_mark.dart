@@ -1,13 +1,11 @@
-
-
 import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:new_tutorial/tutorial_page/target/target_focus_default.dart';
 import 'package:new_tutorial/tutorial_page/util.dart';
-import 'package:new_tutorial/tutorial_page/widgets/tutorial_coach_mark_widget_default.dart';
+import 'package:new_tutorial/tutorial_page/widgets/tutorial_coach_mark_widget.dart';
 
+import 'model/target_focus.dart';
 
 /// A controller class that manages tutorial coach marks in your Flutter application.
 ///
@@ -45,7 +43,7 @@ class TutorialCoachMarkDefault {
   final List<TargetFocusDefault> targets;
   final FutureOr<void> Function(TargetFocusDefault)? onClickTarget;
   final FutureOr<void> Function(TargetFocusDefault, TapDownDetails)?
-      onClickTargetWithTapPosition;
+  onClickTargetWithTapPosition;
   final FutureOr<void> Function(TargetFocusDefault)? onClickOverlay;
   final Function()? onFinish;
   final double paddingFocus;
@@ -68,12 +66,12 @@ class TutorialCoachMarkDefault {
   final ImageFilter? imageFilter;
   final String? backgroundSemanticLabel;
   final int initialFocus;
-  final GlobalKey<TutorialCoachMarkWidgetDefaultState> _widgetKey = GlobalKey();
+  final GlobalKey<TutorialCoachMarkWidgetState> _widgetKey = GlobalKey();
   final bool disableBackButton;
 
   OverlayEntry? _overlayEntry;
   ModalRoute?
-      _blockBackRoute; // Referencia a la ruta que bloquea el botón "Atrás"
+  _blockBackRoute; // Referencia a la ruta que bloquea el botón "Atrás"
   BuildContext? _contextTutorial; // Almacena el contexto para usarlo después
 
   TutorialCoachMarkDefault({
@@ -106,7 +104,7 @@ class TutorialCoachMarkDefault {
   OverlayEntry _buildOverlay({bool rootOverlay = false}) {
     return OverlayEntry(
       builder: (context) {
-        return TutorialCoachMarkWidgetDefault(
+        return TutorialCoachMarkWidget(
           key: _widgetKey,
           targets: targets,
           clickTarget: onClickTarget,
@@ -149,10 +147,7 @@ class TutorialCoachMarkDefault {
     bool rootOverlay = false,
   }) {
     navigatorKey.currentState?.overlay?.let((it) {
-      showWithOverlayState(
-        overlay: it,
-        rootOverlay: rootOverlay,
-      );
+      showWithOverlayState(overlay: it, rootOverlay: rootOverlay);
     });
   }
 
@@ -182,10 +177,7 @@ class TutorialCoachMarkDefault {
     });
   }
 
-  void _createAndShow(
-    OverlayState overlay, {
-    bool rootOverlay = false,
-  }) {
+  void _createAndShow(OverlayState overlay, {bool rootOverlay = false}) {
     if (_overlayEntry == null) {
       _overlayEntry = _buildOverlay(rootOverlay: rootOverlay);
       overlay.insert(_overlayEntry!);
@@ -208,7 +200,7 @@ class TutorialCoachMarkDefault {
 
   bool get isShowing => _overlayEntry != null;
 
-  GlobalKey<TutorialCoachMarkWidgetDefaultState> get widgetKey => _widgetKey;
+  GlobalKey<TutorialCoachMarkWidgetState> get widgetKey => _widgetKey;
 
   void next() => _widgetKey.currentState?.next();
 

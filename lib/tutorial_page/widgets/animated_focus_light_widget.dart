@@ -2,13 +2,13 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:new_tutorial/tutorial_page/clipper/circle_clipper_default.dart';
-import 'package:new_tutorial/tutorial_page/clipper/rect_clipper_default.dart';
-import 'package:new_tutorial/tutorial_page/paint/light_paint_default.dart';
-import 'package:new_tutorial/tutorial_page/paint/light_paint_rect_default.dart';
+import 'package:new_tutorial/tutorial_page/paint/light_paint_paint.dart';
+import 'package:new_tutorial/tutorial_page/paint/light_paint_rect_paint.dart';
 
-import '../target/target_focus_default.dart';
-import '../target/target_position_default.dart';
+import '../model/clipper/circle_clipper_paint.dart';
+import '../model/clipper/rect_clipper_paint.dart';
+import '../model/target_focus.dart';
+import '../model/target_position.dart';
 import '../util.dart';
 
 class AnimatedFocusLightDefault extends StatefulWidget {
@@ -148,11 +148,6 @@ abstract class AnimatedFocusLightDefaultState
     return _revertAnimation();
   }
 
-  Future _tapHandlerForPosition(TapDownDetails tapDetails) async {
-    if (_isAnimating) return;
-    await widget.clickTargetWithTapPosition?.call(_targetFocus, tapDetails);
-  }
-
   Future<void> _runFocus() async {
     if (_currentFocus < 0) return;
     _targetFocus = widget.targets[_currentFocus];
@@ -232,7 +227,7 @@ abstract class AnimatedFocusLightDefaultState
 
   CustomClipper<Path> _getClipper(ShapeLightFocusDefault? shape) {
     return shape == ShapeLightFocusDefault.RRect
-        ? RectClipperDefault(
+        ? RectClipperPaint(
             progress: _progressAnimated,
             offset: _getPaddingFocus(),
             target:
@@ -241,7 +236,7 @@ abstract class AnimatedFocusLightDefaultState
             radius: _targetFocus.radius ?? 0,
             borderSide: _targetFocus.borderSide,
           )
-        : CircleClipperDefault(
+        : CircleClipperPaint(
             _progressAnimated,
             _positioned,
             _sizeCircle,
@@ -276,11 +271,6 @@ abstract class AnimatedFocusLightDefaultState
   double _getPaddingFocus() {
     return _targetFocus.paddingFocus ?? (widget.paddingFocus);
   }
-
-  void _onTargetTap() {
-    if (!_targetFocus.enableTargetTab) return;
-    _tapHandler(targetTap: true);
-  }
 }
 
 class AnimatedStaticFocusLightState extends AnimatedFocusLightDefaultState {
@@ -311,14 +301,10 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightDefaultState {
               Positioned(
                 left: left,
                 top: top,
-                child: GestureDetector(
-                  onTapDown: _tapHandlerForPosition,
-                  onTap: _onTargetTap,
-                  child: Container(
-                    color: Colors.transparent,
-                    width: width,
-                    height: height,
-                  ),
+                child: Container(
+                  color: Colors.transparent,
+                  width: width,
+                  height: height,
                 ),
               ),
             ],

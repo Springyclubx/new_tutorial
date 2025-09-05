@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:new_tutorial/tutorial_page/target/target_content_default.dart';
-import 'package:new_tutorial/tutorial_page/target/target_position_default.dart';
+import 'package:new_tutorial/tutorial_page/model/target_content.dart';
+import 'package:new_tutorial/tutorial_page/model/target_position.dart';
 import 'package:new_tutorial/tutorial_page/util.dart';
 
 class TargetFocusDefault {
@@ -25,7 +25,7 @@ class TargetFocusDefault {
   final dynamic identify;
   final GlobalKey? keyTarget;
   final TargetPositionDefault? targetPosition;
-  final List<TargetContentDefault>? contents;
+  final List<TargetContentDefaultModel>? contents;
   final ShapeLightFocusDefault? shape;
   final double? radius;
   final BorderSide? borderSide;

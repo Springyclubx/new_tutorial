@@ -2,13 +2,13 @@ import 'dart:math';
 
 import 'package:flutter/rendering.dart';
 
-class CircleClipperDefault extends CustomClipper<Path> {
+class CircleClipperPaint extends CustomClipper<Path> {
   final double progress;
   final Offset positioned;
   final double sizeCircle;
   final BorderSide? borderSide;
 
-  CircleClipperDefault(
+  CircleClipperPaint(
     this.progress,
     this.positioned,
     this.sizeCircle,
@@ -33,11 +33,7 @@ class CircleClipperDefault extends CustomClipper<Path> {
   // gives the equivalent of `sweepAngle: 0`.  I couldn't find any documentation
   // of the expected behavior here, so instead I just call arcTo twice (two
   // semi-circles) to outline the full hole.
-  static Path circleHolePath(
-    Size size,
-    Offset positioned,
-    double radius,
-  ) {
+  static Path circleHolePath(Size size, Offset positioned, double radius) {
     return Path()
       ..moveTo(0, 0)
       ..lineTo(0, positioned.dy)
@@ -47,12 +43,7 @@ class CircleClipperDefault extends CustomClipper<Path> {
         pi,
         false,
       )
-      ..arcTo(
-        Rect.fromCircle(center: positioned, radius: radius),
-        0,
-        pi,
-        false,
-      )
+      ..arcTo(Rect.fromCircle(center: positioned, radius: radius), 0, pi, false)
       ..lineTo(0, positioned.dy)
       ..lineTo(0, size.height)
       ..lineTo(size.width, size.height)
@@ -61,7 +52,7 @@ class CircleClipperDefault extends CustomClipper<Path> {
   }
 
   @override
-  bool shouldReclip(covariant CircleClipperDefault oldClipper) {
+  bool shouldReclip(covariant CircleClipperPaint oldClipper) {
     return progress != oldClipper.progress;
   }
 }

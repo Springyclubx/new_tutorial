@@ -2,16 +2,16 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:new_tutorial/tutorial_page/target/target_focus_default.dart';
-import 'package:new_tutorial/tutorial_page/target/target_position_default.dart';
 import 'package:new_tutorial/tutorial_page/util.dart';
-import 'package:new_tutorial/tutorial_page/widgets/animated_focus_light_default.dart';
+import 'package:new_tutorial/tutorial_page/widgets/animated_focus_light_widget.dart';
 
-import '../target/target_content_default.dart';
+import '../model/target_content.dart';
+import '../model/target_focus.dart';
+import '../model/target_position.dart';
 
-class TutorialCoachMarkWidgetDefault extends StatefulWidget {
-  const TutorialCoachMarkWidgetDefault({
-    Key? key,
+class TutorialCoachMarkWidget extends StatefulWidget {
+  const TutorialCoachMarkWidget({
+    super.key,
     required this.targets,
     this.finish,
     this.paddingFocus = 10,
@@ -37,8 +37,7 @@ class TutorialCoachMarkWidgetDefault extends StatefulWidget {
     this.imageFilter,
     this.backgroundSemanticLabel,
     this.initialFocus = 0,
-  }) : assert(targets.length > 0),
-       super(key: key);
+  }) : assert(targets.length > 0);
 
   final List<TargetFocusDefault> targets;
   final FutureOr Function(TargetFocusDefault)? clickTarget;
@@ -68,12 +67,10 @@ class TutorialCoachMarkWidgetDefault extends StatefulWidget {
   final String? backgroundSemanticLabel;
 
   @override
-  TutorialCoachMarkWidgetDefaultState createState() =>
-      TutorialCoachMarkWidgetDefaultState();
+  TutorialCoachMarkWidgetState createState() => TutorialCoachMarkWidgetState();
 }
 
-class TutorialCoachMarkWidgetDefaultState
-    extends State<TutorialCoachMarkWidgetDefault>
+class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
     implements TutorialCoachMarkControllerDefault {
   final GlobalKey<AnimatedFocusLightDefaultState> _focusLightKey = GlobalKey();
   bool showContent = false;
@@ -187,53 +184,39 @@ class TutorialCoachMarkWidgetDefaultState
     haloHeight = haloHeight * 0.6 + widget.paddingFocus;
 
     double width = 0.0;
-    double? top;
-    double? bottom;
     double? left;
-    double? right;
 
     final ancestorBox = context.findRenderObject() as RenderBox;
 
     children = currentTarget!.contents!.map<Widget>((i) {
       switch (i.align) {
-        case ContentAlignDefault.bottom:
+        case ContentAlignType.bottom:
           {
             width = ancestorBox.size.width;
             left = 0;
-            top = positioned.dy + haloHeight;
-            bottom = null;
           }
           break;
-        case ContentAlignDefault.top:
+        case ContentAlignType.top:
           {
             width = ancestorBox.size.width;
             left = 0;
-            top = null;
-            bottom = haloHeight + (ancestorBox.size.height - positioned.dy);
           }
           break;
-        case ContentAlignDefault.left:
+        case ContentAlignType.left:
           {
             width = positioned.dx - haloWidth;
             left = 0;
-            top = positioned.dy - target!.size.height / 2 - haloHeight;
-            bottom = null;
           }
           break;
-        case ContentAlignDefault.right:
+        case ContentAlignType.right:
           {
             left = positioned.dx + haloWidth;
-            top = positioned.dy - target!.size.height / 2 - haloHeight;
-            bottom = null;
             width = ancestorBox.size.width - left!;
           }
           break;
-        case ContentAlignDefault.custom:
+        case ContentAlignType.custom:
           {
             left = i.customPosition!.left;
-            right = i.customPosition!.right;
-            top = i.customPosition!.top;
-            bottom = i.customPosition!.bottom;
             width = ancestorBox.size.width;
           }
           break;

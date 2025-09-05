@@ -1,7 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:new_tutorial/tutorial_page/clipper/circle_clipper_default.dart';
+
+import '../model/clipper/circle_clipper_paint.dart';
 
 class LightPaintDefault extends CustomPainter {
   final double progress;
@@ -31,7 +32,11 @@ class LightPaintDefault extends CustomPainter {
 
     double radius = maxSize * (1 - progress) + sizeCircle;
 
-    final circleHole = CircleClipperDefault.circleHolePath(size, positioned, radius);
+    final circleHole = CircleClipperPaint.circleHolePath(
+      size,
+      positioned,
+      radius,
+    );
 
     final justCircleHole = Path()
       ..moveTo(positioned.dx - radius, positioned.dy)
@@ -41,27 +46,23 @@ class LightPaintDefault extends CustomPainter {
         pi,
         false,
       )
-      ..arcTo(
-        Rect.fromCircle(center: positioned, radius: radius),
-        0,
-        pi,
-        false,
-      )
+      ..arcTo(Rect.fromCircle(center: positioned, radius: radius), 0, pi, false)
       ..close();
 
     canvas.drawPath(
       circleHole,
       Paint()
         ..style = PaintingStyle.fill
-        ..color = colorShadow.withOpacity(opacityShadow),
+        ..color = colorShadow.withValues(alpha: opacityShadow),
     );
     if (borderSide != null && borderSide?.style != BorderStyle.none) {
       canvas.drawPath(
-          justCircleHole,
-          Paint()
-            ..style = PaintingStyle.stroke
-            ..color = borderSide!.color
-            ..strokeWidth = borderSide!.width);
+        justCircleHole,
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..color = borderSide!.color
+          ..strokeWidth = borderSide!.width,
+      );
     }
   }
 

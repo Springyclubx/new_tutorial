@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
-import 'package:new_tutorial/tutorial_page/target/target_focus_default.dart';
-import 'package:new_tutorial/tutorial_page/target/target_position_default.dart';
+
+import 'model/target_focus.dart';
+import 'model/target_position.dart';
 
 // ignore: constant_identifier_names
 enum ShapeLightFocusDefault { Circle, RRect }
@@ -63,7 +64,7 @@ extension StateExt on State {
 
 class NotFoundTargetException extends FormatException {
   NotFoundTargetException(identify)
-      : super('It was not possible to obtain target position ($identify).');
+    : super('It was not possible to obtain target position ($identify).');
 }
 
 void postFrame(VoidCallback callback) {
